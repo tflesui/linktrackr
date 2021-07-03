@@ -28,7 +28,7 @@ async function buildTables() {
     
       CREATE TABLE tags (
         id SERIAL PRIMARY KEY,
-        tag_name VARCHAR(255) NOT NULL
+        tag_name VARCHAR(255) NOT NULL UNIQUE
       );
 
       CREATE TABLE link_tags (
@@ -48,13 +48,20 @@ async function populateInitialData() {
   try {
     // create useful starting data
     await client.query(`
-      INSERT INTO links (link_name) VALUES ('www.google.com');
-      INSERT INTO tags (tag_name) VALUES ('search');
+    INSERT INTO links (link_name) VALUES ('www.google.com');
+    INSERT INTO links (link_name) VALUES ('www.youtube.com');
+    INSERT INTO tags (tag_name) VALUES ('search');
+    INSERT INTO tags (tag_name) VALUES ('entertainment');
       INSERT INTO link_tags ("linksId", "tagsId")
       VALUES (
         (SELECT id FROM links WHERE link_name = 'www.google.com' LIMIT 1),
         (SELECT id FROM tags WHERE tag_name = 'search' LIMIT 1)
-      )
+      );
+      INSERT INTO link_tags ("linksId", "tagsId")
+      VALUES (
+        (SELECT id FROM links WHERE link_name = 'www.youtube.com' LIMIT 1),
+        (SELECT id FROM tags WHERE tag_name = 'entertainment' LIMIT 1)
+      );
     `)
   } catch (error) {
     throw error;
