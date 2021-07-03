@@ -10,9 +10,9 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
-      DROP TABLE IF EXISTS links_tags;
-      DROP TABLE IF EXISTS tags;
-      DROP TABLE IF EXISTS links; 
+      DROP TABLE IF EXISTS link_tags CASCADE;
+      DROP TABLE IF EXISTS tags CASCADE;
+      DROP TABLE IF EXISTS links CASCADE; 
     `)
 
     // build tables in correct order
@@ -20,7 +20,7 @@ async function buildTables() {
 
       CREATE TABLE links (
         id SERIAL PRIMARY KEY,
-        link_name VARCHAR(255) NOT NULL,
+        link_name VARCHAR(255) NOT NULL UNIQUE,
         click_count BIGINT,
         comment VARCHAR(255),
         date DATE NOT NULL DEFAULT CURRENT_DATE
@@ -31,10 +31,11 @@ async function buildTables() {
         tag_name VARCHAR(255) NOT NULL
       );
 
-      CREATE TABLE links_tags (
+      CREATE TABLE link_tags (
         id SERIAL PRIMARY KEY,
         "linksId" INT REFERENCES links("id") ON DELETE CASCADE NOT NULL,
-        "tagsId" INT REFERENCES tags("id") ON DELETE CASCADE NOT NULL
+        "tagsId" INT REFERENCES tags("id") ON DELETE CASCADE NOT NULL,
+        UNIQUE ("linksId", "tagsId")
       );
     `);
 
@@ -47,12 +48,12 @@ async function populateInitialData() {
   try {
     // create useful starting data
     await client.query(`
-      INSERT INTO links (name) VALUES ('www.google.com');
-      INSERT INTO tags (name) VALUES ('search');
-      INSERT INTO links_tags ("linksId", "tagsId")
+      INSERT INTO links (link_name) VALUES ('www.google.com');
+      INSERT INTO tags (tag_name) VALUES ('search');
+      INSERT INTO link_tags ("linksId", "tagsId")
       VALUES (
-        (SELECT id FROM links WHERE name = 'www.google.com' LIMIT 1),
-        (SELECT id FROM tags WHERE name = 'search' LIMIT 1)
+        (SELECT id FROM links WHERE link_name = 'www.google.com' LIMIT 1),
+        (SELECT id FROM tags WHERE tag_name = 'search' LIMIT 1)
       )
     `)
   } catch (error) {
