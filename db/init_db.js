@@ -2,7 +2,8 @@
 const {
   client
   // other db methods 
-} = require('./index');
+} = require('./client');
+const { createLink } = require('./links');
 
 async function buildTables() {
   try {
@@ -33,8 +34,8 @@ async function buildTables() {
 
       CREATE TABLE link_tags (
         id SERIAL PRIMARY KEY,
-        "linksId" INT REFERENCES links("id") ON DELETE CASCADE NOT NULL,
-        "tagsId" INT REFERENCES tags("id") ON DELETE CASCADE NOT NULL,
+        "linksId" INT REFERENCES links(id) ON DELETE CASCADE NOT NULL,
+        "tagsId" INT REFERENCES tags(id) ON DELETE CASCADE NOT NULL,
         UNIQUE ("linksId", "tagsId")
       );
     `);
@@ -46,23 +47,22 @@ async function buildTables() {
 
 async function populateInitialData() {
   try {
-    // create useful starting data
-    await client.query(`
-    INSERT INTO links (link_name) VALUES ('www.google.com');
-    INSERT INTO links (link_name) VALUES ('www.youtube.com');
-    INSERT INTO tags (tag_name) VALUES ('search');
-    INSERT INTO tags (tag_name) VALUES ('entertainment');
-      INSERT INTO link_tags ("linksId", "tagsId")
-      VALUES (
-        (SELECT id FROM links WHERE link_name = 'www.google.com' LIMIT 1),
-        (SELECT id FROM tags WHERE tag_name = 'search' LIMIT 1)
-      );
-      INSERT INTO link_tags ("linksId", "tagsId")
-      VALUES (
-        (SELECT id FROM links WHERE link_name = 'www.youtube.com' LIMIT 1),
-        (SELECT id FROM tags WHERE tag_name = 'entertainment' LIMIT 1)
-      );
-    `)
+    await createLink({
+      linkName: 'www.espn.com',
+      clickCount: 0, 
+      comment: 'I love sports',
+      tags: ['sports', 'entertainment'] });
+    await createLink({
+      linkName: 'www.google.com',
+      clickCount: 0, 
+      comment: 'OK Google',
+      tags: ['search', 'information'] });
+    await createLink({
+      linkName: 'www.github.com',
+      clickCount: 0, 
+      comment: 'Check out my repo!',
+      tags: ['version control'] });
+    
   } catch (error) {
     throw error;
   }
