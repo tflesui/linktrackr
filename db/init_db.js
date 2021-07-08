@@ -4,6 +4,8 @@ const {
   // other db methods 
 } = require('./client');
 const { createLink } = require('./links');
+const { createTags } = require('./tags');
+const { createLinkTag } = require('./link_tags');
 
 async function buildTables() {
   try {
@@ -62,6 +64,8 @@ async function populateInitialData() {
       clickCount: 0, 
       comment: 'Check out my repo!',
       tags: ['version control'] });
+    await createTags(['fun', 'cool']);
+    await createLinkTag(1, 4);
     
   } catch (error) {
     throw error;

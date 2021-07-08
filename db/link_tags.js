@@ -32,12 +32,33 @@ const getLinkTagById = async id => {
         console.error(err.message);
         throw err;
     }
-}
+} 
 
+const getAllLinkTags = async linkId => {
+    try {
+        const { rows } = await client.query(`
+            SELECT t.tag_name as "tagName"
+            FROM link_tags as lt
+            JOIN links as l ON lt."linksId" = (
+                SELECT id FROM link_tags WHERE "linksId" = $1 LIMIT 1
+            )
+            JOIN tags as t ON t.id = lt."tagsId";
+        `, [linkId]);
+        
+        console.log('linkId', linkId);
+        console.log('rows',  rows );
+
+        return rows; 
+    } catch (err) {
+        console.error(err.message);
+        throw err;
+    }
+}
 // UPDATE
 // DELETE
 
 module.exports = {
     createLinkTag,
-    getLinkTagById
+    getLinkTagById,
+    getAllLinkTags
 }
