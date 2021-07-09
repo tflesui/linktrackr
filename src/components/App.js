@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
-
+import NavBar from './NavBar';
 import {
-  getSomething
+  getLinks
 } from '../api';
+// import { getAllLinks } from '../../db';
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [links, setLinks] = useState('');
 
   useEffect(() => {
-    getSomething()
+    getLinks()
       .then(response => {
-        setMessage(response.message);
+        console.log(response)
+        setLinks(response.link_name);
       })
       .catch(error => {
-        setMessage(error.message);
+        setLinks(error.message);
       });
-  });
+  },[]);
 
   return (
     <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
+      <NavBar />
+      <div>{ links }</div>
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "@material-tailwind/react/tailwind.css";
 
 import {
-  App
+  App,
 } from './components';
 
 ReactDOM.render(
-  <App />,
+  <div>
+    <App />
+  </div>,
   document.getElementById('root')
 );
