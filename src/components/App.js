@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Main from './Main';
 import NavBar from './NavBar';
-import {
-  getLinks
-} from '../api';
-// import { getAllLinks } from '../../db';
+import Links from './Links';
+import SingleLink from './SingleLink';
+import Tags from './Tags';
 
 const App = () => {
-  const [links, setLinks] = useState('');
-
-  useEffect(() => {
-    getLinks()
-      .then(response => {
-        console.log(response)
-        setLinks(response.link_name);
-      })
-      .catch(error => {
-        setLinks(error.message);
-      });
-  },[]);
 
   return (
     <div className="App">
       <NavBar />
-      <div>{ links }</div>
+      <Switch>
+        <Route path='/' exact component={Main} />
+        <Route path='/links/:id' component={SingleLink} />
+        <Route path='/links' component={Links} />
+        <Route path='/tags' component={Tags} />
+      </Switch>
     </div>
   );
 }

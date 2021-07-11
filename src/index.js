@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "@material-tailwind/react/tailwind.css";
+import { HashRouter as Router} from 'react-router-dom';
 
 import {
   App,
 } from './components';
 
 ReactDOM.render(
-  <div>
+  <Router>
     <App />
-  </div>,
+  </Router>,
   document.getElementById('root')
 );

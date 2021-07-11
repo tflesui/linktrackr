@@ -7,4 +7,7 @@ tagsRouter.get('/', async (req, res, next) => {
     res.send({ tags })
 })
 
+// create a link
+// delete a link
+
 module.exports = tagsRouter;

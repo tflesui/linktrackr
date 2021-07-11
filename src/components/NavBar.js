@@ -1,37 +1,35 @@
-import React, { useState } from "react";
-import Navbar from "@material-tailwind/react/Navbar";
-import NavbarContainer from "@material-tailwind/react/NavbarContainer";
-import NavbarWrapper from "@material-tailwind/react/NavbarWrapper";
-import NavbarBrand from "@material-tailwind/react/NavbarBrand";
-import NavbarToggler from "@material-tailwind/react/NavbarToggler";
-import NavbarCollapse from "@material-tailwind/react/NavbarCollapse";
-import Nav from "@material-tailwind/react/Nav";
-import NavItem from "@material-tailwind/react/NavItem";
-import NavLink from "@material-tailwind/react/NavLink";
+import React from 'react';
+import {
+    Nav,
+    Navbar,
+    // NavDropdown,
+    // Form,
+    // FormControl,
+    // Button
+} from 'react-bootstrap';
 
-export default function NavBar(){
-  const [openNavbar, setOpenNavbar] = useState(false);
 
-  return (
-    <Navbar color="blueGray" navbar>
-        <NavbarContainer>
-            <NavbarWrapper>
-                <NavbarBrand>LinkTrackr</NavbarBrand>
-                <NavbarToggler
-                    color="white"
-                    onClick={() => setOpenNavbar(!openNavbar)}
-                    ripple="light"
-                />
-            </NavbarWrapper>
+function NavBar() {
+    return (
+        <div>
+            <Navbar variant="dark" expand="lg" style={{
+                backgroundColor: '#22543D'
+            }}>
+                <Navbar.Brand href="#">LinkTrackr</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ml-auto">
+                    <Nav.Link href="#links">Links</Nav.Link>
+                    <Nav.Link href="#tags">Tags</Nav.Link>
+                    </Nav>
+                    {/* <Form inline>
+                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Button variant="outline-success">Search</Button>
+                    </Form> */}
+                </Navbar.Collapse>
+                </Navbar>
+        </div>
+    )
+};
 
-            <NavbarCollapse open={openNavbar}>
-                <Nav>
-                    <NavItem active="light" ripple="light">Links</NavItem>
-                    <NavLink href="#navbar" ripple="light">Tags</NavLink>
-                    <NavItem ripple="light">About</NavItem>
-                </Nav>
-            </NavbarCollapse>
-        </NavbarContainer>
-    </Navbar>
-  );
-}
+export default NavBar;
