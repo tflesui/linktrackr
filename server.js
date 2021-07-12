@@ -1,6 +1,7 @@
 // This is the Web Server
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 // create logs for everything
 const morgan = require('morgan');
@@ -9,6 +10,7 @@ app.use(morgan('dev'));
 // handle application/json requests
 // const bodyParser = require('body-parser');
 app.use(express.json());
+app.use(cors());
 
 // here's our static files
 const path = require('path');

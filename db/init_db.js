@@ -24,9 +24,9 @@ async function buildTables() {
       CREATE TABLE links (
         id SERIAL PRIMARY KEY,
         link_name VARCHAR(255) NOT NULL UNIQUE,
-        click_count BIGINT,
+        click_count INTEGER,
         comment VARCHAR(255),
-        date DATE NOT NULL DEFAULT CURRENT_DATE
+        date TIMESTAMP DEFAULT LOCALTIMESTAMP NOT NULL 
       );
     
       CREATE TABLE tags (

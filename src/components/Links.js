@@ -30,7 +30,7 @@ const LinkCard = ({link}) => {
                 <Card.Subtitle className="mb-2 text-muted">Click Count: {link.click_count}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">Date Added: {link.date}</Card.Subtitle>
                 <Card.Text>
-                    {link.comment}
+                    "{link.comment}"
                 </Card.Text>
                 {
                     link.tags && link.tags.map(tag => {
@@ -46,6 +46,7 @@ const LinkCard = ({link}) => {
 
 const Links = () => {
     const [links, setLinks] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const getAndSetLinks = async () => {
@@ -57,15 +58,29 @@ const Links = () => {
         getAndSetLinks();
     },[])
 
+    
+    const goToCreateLink = () => {
+        history.push(`/links/create`);
+    }
+
     return (
         <div style={{
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '1em',
         }}>
+            <div style={{
+                display: 'flex',
+                marginBottom: '1em'
+            }}>
             <h2>All Links</h2>
+            <Button className="ml-3" size="sm" variant="outline-secondary" onClick={() => {
+                    goToCreateLink();
+                }}>Create Link</Button>
+            </div>
             {
                 links.map((link, index) => {
                   return  <LinkCard link={link} key={index} />

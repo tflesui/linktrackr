@@ -22,9 +22,13 @@ const addTagsToLink = async (linkId, tagList) => {  //must come before createLin
   }
 }
   
-
+// fix this function! 
 const createLink = async data => {
-    const {linkName, clickCount, comment, tags = []} = data;
+    const {linkName, clickCount , comment, tags} = data;
+
+    console.log('createLink func: ', data)
+    // console.log('comment from data: ', comment)
+    console.log('linkComment from data: ', comment)
 
     try {
       const { rows: [ link ] } = await client.query(`
@@ -34,6 +38,12 @@ const createLink = async data => {
         RETURNING *;
       `, [linkName, clickCount, comment]);
 
+      // const { link } = rows;
+      // console.log('rows: ', link)
+
+      const { id } = link;
+      console.log('link.id ',id)
+      console.log('tags: ', tags)
 
       const tagList = await createTags(tags);
       

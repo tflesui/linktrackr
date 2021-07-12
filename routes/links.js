@@ -2,7 +2,8 @@ const linksRouter = require('express').Router();
 const { 
     getAllLinks,
     getAllLinkTags,
-    getLinkById
+    getLinkById,
+    createLink
 } = require('../db');
 
 // get all links
@@ -16,7 +17,6 @@ linksRouter.get('/', async (req, res, next) => {
 linksRouter.get('/:linkId', async (req, res, next) => {
     const { linkId } = req.params;
     const link = await getLinkById(linkId);
-
     res.send({ link });
 })
 
@@ -39,6 +39,18 @@ linksRouter.get("/:linkId/tags", async (req, res, next) => {
 });
 
 // create a link
+linksRouter.post('/create', async (req, res, next) => {
+    let { link } = req.body; 
+    link = {
+        ...link,
+        clickCount: 0
+    }
+
+    await createLink(link);
+
+    res.sendStatus(200);
+})
+
 // update a link
 // delete a link
   
