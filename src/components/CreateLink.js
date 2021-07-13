@@ -65,7 +65,6 @@ const CreateLink = () => {
             <Form onSubmit={
 							e => {
 								e.preventDefault();
-								console.log('form submitted', e);
 							}
 						}>
                 <Form.Group controlId="formLinkName">

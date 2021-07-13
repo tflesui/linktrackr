@@ -39,3 +39,15 @@ export async function createLink(link) {
 		return false
 	}
 }
+
+export async function deleteLink(id) {
+  try {
+    await axios.delete(`/api/links/${id}`);
+
+    return true
+  } catch (error) {
+    console.error(error.message)
+
+    return false
+  }
+}

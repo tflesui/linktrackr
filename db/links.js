@@ -26,10 +26,6 @@ const addTagsToLink = async (linkId, tagList) => {  //must come before createLin
 const createLink = async data => {
     const {linkName, clickCount , comment, tags} = data;
 
-    console.log('createLink func: ', data)
-    // console.log('comment from data: ', comment)
-    console.log('linkComment from data: ', comment)
-
     try {
       const { rows: [ link ] } = await client.query(`
         INSERT INTO links (link_name, click_count, comment)
@@ -38,12 +34,7 @@ const createLink = async data => {
         RETURNING *;
       `, [linkName, clickCount, comment]);
 
-      // const { link } = rows;
-      // console.log('rows: ', link)
-
       const { id } = link;
-      console.log('link.id ',id)
-      console.log('tags: ', tags)
 
       const tagList = await createTags(tags);
       
@@ -180,11 +171,10 @@ const deleteLink = async id => {
   try {
     const { rows: [ link ] } = await client.query(`
       DELETE FROM links
-      WHERE id=$1
-      RETURNING *;
+      WHERE id=$1;
     `, [id]);
 
-    return link;
+    // return link;
   } catch (err) {
     console.error(err.message);
     throw err;

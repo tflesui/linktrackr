@@ -3,7 +3,8 @@ const {
     getAllLinks,
     getAllLinkTags,
     getLinkById,
-    createLink
+    createLink,
+    deleteLink
 } = require('../db');
 
 // get all links
@@ -53,5 +54,12 @@ linksRouter.post('/create', async (req, res, next) => {
 
 // update a link
 // delete a link
+linksRouter.delete('/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    await deleteLink(id);
+
+    res.sendStatus(200);
+})
   
   module.exports = linksRouter;

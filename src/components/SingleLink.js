@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
-import { getSingleLink } from '../api';
+import { getSingleLink, deleteLink } from '../api';
+
+const handleDelete = async id => {
+    console.log(id)
+    await deleteLink(id);
+
+}
 
 
 const SingleLink = () => {
@@ -28,6 +34,7 @@ const SingleLink = () => {
         getAndSetLink();
     }, [])
 
+  
     return (
         <div style={{
             width: '100%',
@@ -58,7 +65,8 @@ const SingleLink = () => {
                     <Card.Title>{link.link_name}</Card.Title>
                     &nbsp;
                     <Button className="ml-auto" size="sm" variant="danger" onClick={() => {
-                        // goToLink(link.id);
+                        handleDelete(link.id);
+                        goToLinks();
                     }}>Delete</Button>
                 </Card.Header>
                 <Card.Body>
