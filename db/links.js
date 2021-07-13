@@ -22,7 +22,6 @@ const addTagsToLink = async (linkId, tagList) => {  //must come before createLin
   }
 }
   
-// fix this function! 
 const createLink = async data => {
     const {linkName, clickCount , comment, tags} = data;
 
@@ -174,7 +173,6 @@ const deleteLink = async id => {
       WHERE id=$1;
     `, [id]);
 
-    // return link;
   } catch (err) {
     console.error(err.message);
     throw err;

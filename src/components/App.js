@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import Links from './Links';
 import SingleLink from './SingleLink';
 import CreateLink from './CreateLink';
+import CreateTag from './CreateTag';
 import Tags from './Tags';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/links/create' exact component={CreateLink} />
         <Route path='/links/:id' exact component={SingleLink} />
         <Route path='/links' exact component={Links} />
+        <Route path='/tags/create' component={CreateTag} />
         <Route path='/tags' component={Tags} />
       </Switch>
     </div>

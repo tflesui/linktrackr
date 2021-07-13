@@ -40,6 +40,20 @@ export async function createLink(link) {
 	}
 }
 
+export async function createTag(tag) {
+	try {
+		await axios.post('/api/tags/create',	{tag})
+
+		return true
+	} catch (e) {
+		console.error(e)
+
+		return false
+	}
+}
+
+
+
 export async function deleteLink(id) {
   try {
     await axios.delete(`/api/links/${id}`);

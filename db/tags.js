@@ -33,6 +33,20 @@ const createTags = async tagList => {
     }
 }
 
+const createTag = async tagName  => {
+    try {
+        const { rows : tag  } = await client.query(`
+            INSERT INTO tags(tag_name)
+            VALUES ($1)
+            ON CONFLICT (tag_name) DO NOTHING;
+        `, [tagName]);
+
+        return tag;
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
 // READ
 
 const getAllTags = async () => {
@@ -84,6 +98,7 @@ const deleteTag = async tagId => {
 
 module.exports = {
     createTags,
+    createTag,
     getAllTags,
     getTagById,
     deleteTag

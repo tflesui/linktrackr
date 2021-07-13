@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { getAllTags } from '../api';
 
 const TagCard = ({tag}) => {
@@ -18,6 +19,7 @@ const TagCard = ({tag}) => {
 
 const Tags = () => {
     const [tags, setTags] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const getAndSetTags = async () => {
@@ -28,15 +30,29 @@ const Tags = () => {
         getAndSetTags();
     },[])
 
+    const goToCreateTag = () => {
+        history.push(`/tags/create`);
+    }
+
     return (
         <div style={{
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '1em'
+        }}>
+            <div style={{
+            display: 'flex',
+            marginBottom: '1em'
         }}>
             <h2>All Tags</h2>
+            
+            <Button className="ml-3" size="sm" variant="outline-secondary" onClick={() => {
+                    goToCreateTag();
+                }}>Create Tag</Button>
+            </div>
             {
                 tags.map((tag, index) => {
                   return  <TagCard tag={tag} key={index} />
